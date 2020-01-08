@@ -1,21 +1,32 @@
-const {argv} = require('./config/yargs')
+const {argvTodo: argv} = require('./config/yargs')
 const colors = require('colors')
-const {crearArchivo, listarTabla} = require('./multiplicar');
 
-let comando = argv._[0];
+const toDo = require('./to-do/to-do')
 
-switch (comando) {
+let command = argv._[0];
+switch (command) {
   
-  case 'listar':
-    listarTabla(argv.base, argv.limite)
+  case 'add':
+    let item = toDo.add(argv.description);
     break;
     
-  case 'crear':
-    crearArchivo(argv.base, argv.limite)
-      .then(archivo => console.log(`Archivo creado: ${archivo.green}`))
-      .catch(err => console.log(err))
+  case 'show':
+    const list = toDo.getTodoList();
+    console.log('To Do List:'.green)
+
+    for(let item of list){
+      console.log(`${item.completed ? '✓' : '✖'} ${item.description}`)
+    }
     break;
     
+  case 'update':
+    toDo.update(argv.description, argv.completed)
+    break;
+    
+  case 'remove':
+    toDo.remove(argv.description)
+    break;
+
   default:
     console.log('Comando desconocido');
 }
