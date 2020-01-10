@@ -10,7 +10,7 @@ const optsMultiplicar = {
     
   };
   
-  const optsTodo = {
+const optsTodo = {
     description:{
       demand: true,
       alias: 'd',
@@ -37,8 +37,18 @@ const argvTodo = require('yargs')
     }})
   .help()
   .argv
+  
+  const argvWeather = require('yargs').options({
+    address: {
+      alias: 'a',
+      desc: 'Address of the city to get the weather',
+      demand: true
+    }
+  }).argv
+
 
 module.exports = {
   argvMultiplicar,
-  argvTodo
+  argvTodo,
+  argvWeather
 }
