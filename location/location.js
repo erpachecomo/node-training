@@ -30,9 +30,16 @@ const getLatLngLocation = async (city) =>{
 const getWeather = async (lat, lon) => {
   const response = await axios({
     'method': "GET",
-    'url' : `https://api.openweathermap.org/data/2.5/weather?lat=35&lon=139&appid=28b13597aa4adfa9bd0d57be91aad873`
-  })
-  return response;
+    'url' : `https://api.openweathermap.org/data/2.5/weather`,
+    'params' : {
+      'lat':lat,
+      'lon':lon,
+      'appid':'28b13597aa4adfa9bd0d57be91aad873',
+      'units':'metric'
+    }
+  });
+  
+  return response.data.main;
 }
 
 module.exports = {

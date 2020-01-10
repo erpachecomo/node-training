@@ -1,10 +1,19 @@
 const {argvWeather : argv} = require('./config/yargs');
 const location = require('./location/location');
 
-location.getLatLngLocation(argv.address)
+const getInfo = async (address) => {
+  const response = await location.getLatLngLocation(argv.address)
+  .then(res => 
+    location.getWeather(res.lat, res.lng))
   .then(res => {
-    console.log(res)
-    return location.getWeather(res.lat, res.lng)
-  })
-  .then(res => console.log(res))
-  .catch(err => console.log(err))
+    return `Weather of ${address} is ${res.temp} °C`;
+    })
+  .catch(err => `Weather of ${address} is unavailable`)
+  
+  return response;
+}
+
+getInfo(argv.address)
+  .then(console.log)
+  .catch(console.log)
+
